@@ -20,17 +20,17 @@ const main = async () => {
                 id: 1,
                 title: "Spanish",
                 imageSrc: "/es.svg"
-            }
+            },
             {
                 id: 2,
                 title: "Italian",
                 imageSrc: "/it.svg"
-            }
+            },
             {
                 id: 3,
                 title: "French",
                 imageSrc: "/fr.svg"
-            }
+            },
             {
                 id: 4,
                 title: "Croatian",
