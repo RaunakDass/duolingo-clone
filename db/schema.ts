@@ -22,11 +22,12 @@ export const units = pgTable("units", {
   order: integer("order").notNull()
 })
 
-const unitRelations = relations(units, ({many,one}) =>({
+export const unitRelations = relations(units, ({many,one}) =>({
   course: one(courses, {
     fields: [units.courseId],
     references: [courses.id],
   }),
+  lesson: many(lessons)
 }))
 
 export const lessons = pgTable("lessons", {
@@ -40,9 +41,59 @@ export const lessonsRelations = relations(lessons, ({one,many}) => ({
   unit: one(units, {
     fields: [lessons.unitId],
     references: [units.id],
+  }),
+  challenges: many(challenges)
+}))
+
+export const challengesEnum = pgEnum("type", ["SELECT", "ASSIST"])
+
+export const challenges = pgTable("challenges", {
+  id: serial("id").primaryKey(),
+  lessondId: integer("lesson_id").references(() => lessons.id, {onDelete: "cascade"}).notNull(),
+  type: challengesEnum("type").notNull(),
+  question: text("question").notNull(),
+  order: integer("order").notNull()
+})
+
+export const challengesRelations = relations(challenges, ({one,many}) => ({
+  lesson: one(lessons, {
+    fields: [challenges.lessondId],
+    references: [lessons.id],
+  }),
+  challengeOptions: many(challengeOptions),
+  challengeProgress: many(challengeProgress),
+}))
+
+export const challengeOptions = pgTable("challenge_options", {
+  id: serial("id").primaryKey(),
+  challengeId: integer("challenge_id").references(() => challenges.id, {onDelete: "cascade"}).notNull(),
+  text: text("text").notNull(),
+  correct: boolean("correct").notNull(),
+  imageSrc: text("image_src"),
+  audioSrc: text("audio_src").notNull()
+})
+
+export const challengesOptionsRelations = relations(challengeOptions, ({one}) => ({
+  challenge: one(challenges, {
+    fields: [challengeOptions.challengeId],
+    references: [challenges.id],
   })
 }))
 
+export const challengeProgress = pgTable("challenge_progress", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull(), // TODO: Confirm this doesn't break
+  challengeId: integer("challenge_id").references(() => challenges.id, {onDelete: "cascade"}).notNull(),
+  completed: boolean("completed").notNull().default(false)
+  
+})
+
+export const challengesProgressRelations = relations(challengeProgress, ({one}) => ({
+  challenge: one(challenges, {
+    fields: [challengeProgress.challengeId],
+    references: [challenges.id],
+  })
+}))
 
 export const userProgress = pgTable("user_progress", {
   userId: text("user_id").primaryKey(),
