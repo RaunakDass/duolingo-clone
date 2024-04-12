@@ -23,7 +23,7 @@ export const Quiz = ({
     userSubscription
 }: Props) => {
     const [hearts, setHearts] = useState(initialHearts)
-    const [percentage, setPercentage] = useState(50 || initialPercentage)
+    const [percentage, setPercentage] = useState(initialPercentage)
     return (
          <>
              <Header
