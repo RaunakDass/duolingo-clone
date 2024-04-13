@@ -41,7 +41,11 @@ type CardProps = {
                     disabled && "pointer-events-none hover:bg-white",
                 )}
             >
-                Card
+               {imageSrc && (
+                    <div className="relative mb-4 aspect-square max-h-[80px] w-full lg:max-h-[150px]">
+                    <Image src={imageSrc} fill alt={text} />
+                    </div>
+                )}
             </div>
         )
     
