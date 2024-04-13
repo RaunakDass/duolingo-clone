@@ -32,7 +32,15 @@ type CardProps = {
     type,
   }: CardProps) => {
         return (
-            <div>
+            <div
+                onClick={() => {}}
+                className={cn("h-full border-2 rounded-xl border-b-4 hover:bg-black/5 p-4 lg:p-6 cursor-pointer active:border-b-2",
+                    selected && "border-sky-300 bg-sky-100 hover:bg-sky-100",
+                    selected && status === "correct" && "",
+                    selected && status === "wrong" && "",
+                    disabled && "",
+                )}
+            >
                 Card
             </div>
         )
