@@ -49,7 +49,7 @@ export const challengesEnum = pgEnum("type", ["SELECT", "ASSIST"])
 
 export const challenges = pgTable("challenges", {
   id: serial("id").primaryKey(),
-  lessondId: integer("lesson_id").references(() => lessons.id, {onDelete: "cascade"}).notNull(),
+  lessonId: integer("lesson_id").references(() => lessons.id, {onDelete: "cascade"}).notNull(),
   type: challengesEnum("type").notNull(),
   question: text("question").notNull(),
   order: integer("order").notNull()
@@ -57,7 +57,7 @@ export const challenges = pgTable("challenges", {
 
 export const challengesRelations = relations(challenges, ({one,many}) => ({
   lesson: one(lessons, {
-    fields: [challenges.lessondId],
+    fields: [challenges.lessonId],
     references: [lessons.id],
   }),
   challengeOptions: many(challengeOptions),
