@@ -8,6 +8,7 @@ import { Challenge } from "./challenge"
 import { Footer } from "./footer"
 import { upsertChallengeProgress } from "@/actions/challenge-progress"
 import { toast } from "sonner"
+import { reduceHearts } from "@/actions/user-progress"
 
 type Props = {
     initialPercentage: number 
@@ -93,7 +94,22 @@ export const Quiz = ({
             .catch(() => toast.error("Something went wrong. Please try again"))
         })
       } else {
-        console.log("Incorrect option")
+        startTransition(() => {
+          reduceHearts(challenge.id)
+            .then((response) => {
+              if(response?.error === "hearts"){
+                console.error("Missing hearts")
+                return
+              }
+
+              setStatus("wrong")
+
+              if(!response?.error){
+                setHearts((prev) => Math.max(prev-1, 0))
+              }
+            })
+            .catch(() => toast.error("Something went wrong. Please try again."))
+        })
       }
 
     const title = challenge.type ==="ASSIST" ? "Select the correct meaning" : challenge.question

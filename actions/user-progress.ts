@@ -65,6 +65,12 @@ export const reduceHearts = async (challengeId: number) => {
       where: eq(challenges.id, challengeId),
     });
 
+    if(!challenge){
+        throw new Error("Challenge not found")
+    }
+
+    const lessonId = challenge.lessonId
+
     const existingChallengeProgress = await db.query.challengeProgress.findFirst({
         where: and(
           eq(challengeProgress.userId, userId),
@@ -81,4 +87,17 @@ export const reduceHearts = async (challengeId: number) => {
   //if (userSubscription?.isActive) return { error: "subscription" };
 
   if (currentUserProgress.hearts === 0) return { error: "hearts" };
-    }
+
+  await db
+  .update(userProgress)
+  .set({
+    hearts: Math.max(currentUserProgress.hearts - 1, 0),
+  })
+  .where(eq(userProgress.userId, userId));
+
+revalidatePath("/shop");
+revalidatePath("/learn");
+revalidatePath("/quests");
+revalidatePath("/leaderboard");
+revalidatePath(`/lesson/${lessonId}`);
+};
