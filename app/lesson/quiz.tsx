@@ -13,7 +13,7 @@ import { upsertChallengeProgress } from "@/actions/challenge-progress";
 import { reduceHearts } from "@/actions/user-progress";
 //import { MAX_HEARTS } from "@/constants";
 import { challengeOptions, challenges, } from "@/db/schema";
-//import { useHeartsModal } from "@/store/use-hearts-modal";
+import { useHeartsModal } from "@/store/use-hearts-modal";
 //import { usePracticeModal } from "@/store/use-practice-modal";
 
 import { Challenge } from "./challenge";
@@ -58,7 +58,7 @@ export const Quiz = ({
 
   const router = useRouter();
   const [pending, startTransition] = useTransition();
- // const { open: openHeartsModal } = useHeartsModal();
+  const { open: openHeartsModal } = useHeartsModal();
   //const { open: openPracticeModal } = usePracticeModal();
 
  /* useMount(() => {
