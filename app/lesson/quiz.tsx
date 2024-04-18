@@ -14,7 +14,7 @@ import { reduceHearts } from "@/actions/user-progress";
 //import { MAX_HEARTS } from "@/constants";
 import { challengeOptions, challenges, } from "@/db/schema";
 import { useHeartsModal } from "@/store/use-hearts-modal";
-//import { usePracticeModal } from "@/store/use-practice-modal";
+import { usePracticeModal } from "@/store/use-practice-modal";
 
 import { Challenge } from "./challenge";
 import { Footer } from "./footer";
@@ -59,11 +59,11 @@ export const Quiz = ({
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const { open: openHeartsModal } = useHeartsModal();
-  //const { open: openPracticeModal } = usePracticeModal();
+  const { open: openPracticeModal } = usePracticeModal();
 
- /* useMount(() => {
+  useMount(() => {
     if (initialPercentage === 100) openPracticeModal();
-  });*/
+  });
 
   const [lessonId] = useState(initialLessonId);
   const [hearts, setHearts] = useState(initialHearts);
