@@ -8,7 +8,7 @@ import { StickyWrapper } from "@/components/sticky-wrapper";
 import { UserProgress } from "@/components/user-progress";
 import { getUserProgress, getUserSubscription } from "@/db/queries";
 
-//import { Items } from "./items";
+import { Items } from "./items";
 
 const ShopPage = async () => {
   const userProgressData = getUserProgress();
